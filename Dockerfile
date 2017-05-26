@@ -64,7 +64,7 @@ RUN set -x \
 	&& grep -q "^elasticsearch\.url: 'http://elasticsearch:9200'\$" /etc/kibana/kibana.yml
 
 ENV SENTINL_VERSION 5.3.2
-RUN kibana-plugin install https://github.com/sirensolutions/sentinl/releases/download/tag-$KIBANA_VERSION/sentinl.zip
+RUN /opt/kibana/bin/kibana-plugin install https://github.com/sirensolutions/sentinl/releases/download/tag-$KIBANA_VERSION/sentinl.zip
 
 ENV PATH /usr/share/kibana/bin:$PATH
 
