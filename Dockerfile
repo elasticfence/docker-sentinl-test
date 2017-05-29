@@ -64,14 +64,9 @@ RUN set -x \
 	&& grep -q "^elasticsearch\.url: 'http://elasticsearch:9200'\$" /etc/kibana/kibana.yml
 
 ENV SENTINL_VERSION 5.4.0
-RUN /usr/share/kibana/bin/kibana-plugin install https://github.com/sirensolutions/sentinl/releases/download/tag-$KIBANA_VERSION/sentinl.zip
-
 ENV PATH /usr/share/kibana/bin:$PATH
-COPY docker-entrypoint.sh /
-RUN chmod +x /docker-entrypoint.sh
+RUN kibana-plugin install https://github.com/sirensolutions/sentinl/releases/download/tag-$KIBANA_VERSION/sentinl.zip
 
 EXPOSE 5601
 WORKDIR /usr/share/kibana/
-
-ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["npm", "run", "elasticsearch"]
