@@ -48,7 +48,7 @@ RUN set -ex; \
 # https://www.elastic.co/guide/en/kibana/5.0/deb.html
 RUN echo 'deb https://artifacts.elastic.co/packages/5.x/apt stable main' > /etc/apt/sources.list.d/kibana.list
 
-ENV KIBANA_VERSION 5.3.2
+ENV KIBANA_VERSION 5.4.0
 
 RUN set -x \
 	&& apt-get update \
@@ -63,13 +63,14 @@ RUN set -x \
 	&& sed -ri "s!^(\#\s*)?(elasticsearch\.url:).*!\2 'http://elasticsearch:9200'!" /etc/kibana/kibana.yml \
 	&& grep -q "^elasticsearch\.url: 'http://elasticsearch:9200'\$" /etc/kibana/kibana.yml
 
-ENV SENTINL_VERSION 5.3.2
+ENV SENTINL_VERSION 5.4.0
 RUN kibana-plugin install https://github.com/sirensolutions/sentinl/releases/download/tag-$KIBANA_VERSION/sentinl.zip
 
 ENV PATH /usr/share/kibana/bin:$PATH
-
 COPY docker-entrypoint.sh /
 
 EXPOSE 5601
+WORKDIR /usr/share/kibana/
+
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["kibana"]
+CMD ["npm", "run", "elasticsearch"]
