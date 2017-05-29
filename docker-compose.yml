@@ -4,11 +4,5 @@ services:
   kibana:
     image: elasticfence/docker-sentinl-test:{{ version_tag }}
     ports:
-      - 5601:5601
-    networks: [elastic]
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:{{ version_tag }}
-    networks: [elastic]
+      - 5601
 
-networks:
-  elastic:
